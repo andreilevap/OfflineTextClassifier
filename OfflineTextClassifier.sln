@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevapTech.OfflineTextClassifier", "LevapTech.OfflineTextClassifier\LevapTech.OfflineTextClassifier.csproj", "{8BFF6549-B429-A27A-D299-C6983B2F19DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevapTech.OfflineTextClassifier.Tests", "Tests\LevapTech.OfflineTextClasifier.Tests\LevapTech.OfflineTextClassifier.Tests.csproj", "{7E5E687E-8220-4742-9798-212AAA347FE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8BFF6549-B429-A27A-D299-C6983B2F19DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BFF6549-B429-A27A-D299-C6983B2F19DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BFF6549-B429-A27A-D299-C6983B2F19DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E5E687E-8220-4742-9798-212AAA347FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E5E687E-8220-4742-9798-212AAA347FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E5E687E-8220-4742-9798-212AAA347FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E5E687E-8220-4742-9798-212AAA347FE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
