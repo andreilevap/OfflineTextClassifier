@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/LevapTech.OfflineTextClassifier/.vs/LevapTech.OfflineTextClassifier
+/LevapTech.OfflineTextClassifier/obj
+/LevapTech.OfflineTextClassifier/.vs/ProjectEvaluation
