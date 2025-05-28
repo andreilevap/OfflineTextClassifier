@@ -10,15 +10,16 @@ namespace LevapTech.OfflineTextClassifier
 {
     public record ClassificationResult(string Label, float Confidence);
 
-    public class OfflineTextClasifier
+    public class OfflineTextClasifier : IDisposable
     {
-        private const string ModelLightResource = "LevapTech.OfflineTextClassifier.Models.model_quantized.onnx";
-        private const string ModelResource = "LevapTech.OfflineTextClassifier.Models.model.onnx";
-        private const string TokenizerResource = "LevapTech.OfflineTextClassifier.Models.spm.model";
+        private const string ModelLightResource = "model_quantized.onnx";
+        private const string ModelResource = "model.onnx";
+        private const string TokenizerResource = "spm.model";
 
         private readonly InferenceSession _session;
         private readonly SentencePieceTokenizer _tokenizer;
         public bool IsLightweight { get; }
+        Stream _spmModelStream;
 
         public OfflineTextClasifier(bool isLightweight = false)
         {
@@ -29,8 +30,21 @@ namespace LevapTech.OfflineTextClassifier
             var modelResource = !isLightweight
                 ? ModelResource
                 : ModelLightResource;
-            _session = new InferenceSession(LoadEmbeddedResourceAsBytes(assembly, modelResource));
-            _tokenizer = SentencePieceTokenizer.Create(LoadEmbeddedResourceAsStream(assembly, TokenizerResource));
+
+
+            var modelPath = Path.Combine(AppContext.BaseDirectory, "Models", modelResource);
+            _session = new InferenceSession(modelPath);
+
+            var spmModelPath = Path.Combine(AppContext.BaseDirectory, "Models", TokenizerResource);
+            var bytes = File.ReadAllBytes(spmModelPath);
+            _spmModelStream = new MemoryStream(bytes);
+            _tokenizer = SentencePieceTokenizer.Create(_spmModelStream);
+        }
+
+        public void Dispose()
+        {
+            _spmModelStream?.Dispose();
+            _session?.Dispose();
         }
 
         public async Task<List<ClassificationResult>> ClassifyAsync(string inputText, string[] labels)
@@ -50,20 +64,6 @@ namespace LevapTech.OfflineTextClassifier
 
             return results.OrderByDescending(r => r.Confidence).ToList();
         }
-
-        private static byte[] LoadEmbeddedResourceAsBytes(Assembly assembly, string resourceName)
-        {
-            using var stream = assembly.GetManifestResourceStream(resourceName)
-                ?? throw new InvalidOperationException($"Resource '{resourceName}' not found.");
-            return StreamToByteArray(stream);
-        }
-
-        private static Stream LoadEmbeddedResourceAsStream(Assembly assembly, string resourceName)
-        {
-            return assembly.GetManifestResourceStream(resourceName)
-                ?? throw new InvalidOperationException($"Resource '{resourceName}' not found.");
-        }
-
 
         private string PromptTemplate(string label)
         {
@@ -134,5 +134,7 @@ namespace LevapTech.OfflineTextClassifier
             stream.CopyTo(ms);
             return ms.ToArray();
         }
+
+        
     }
 }
