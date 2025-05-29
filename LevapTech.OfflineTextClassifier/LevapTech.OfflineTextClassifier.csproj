@@ -7,9 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Models\model.onnx" />
-    <None Include="Models\model_quantized.onnx" />
-    <None Include="Models\spm.model" />
+    <None Include="Models\model.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Models\model_quantized.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Models\spm.model">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

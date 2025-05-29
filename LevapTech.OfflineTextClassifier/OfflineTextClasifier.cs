@@ -100,10 +100,11 @@ namespace LevapTech.OfflineTextClassifier
             });
         }
 
-        private long[] Tokenize(string text)
+        private int[] Tokenize(string text)
         {
-            // Replace with real tokenizer based on the model used
-            throw new NotImplementedException("Use a tokenizer consistent with your model (e.g., tokenizer.json from Hugging Face).");
+            // Use the SentencePieceTokenizer to encode the text into ids
+            var encoding = _tokenizer.EncodeToTokens(text,out var normalizedText, false, false);
+            return encoding.Select(token => token.Id).ToArray();    
         }
 
         private DenseTensor<long> CreateAttentionMask(int length)
@@ -124,17 +125,5 @@ namespace LevapTech.OfflineTextClassifier
             }
             return dot / ((float)Math.Sqrt(normA) * (float)Math.Sqrt(normB) + 1e-8f);
         }
-        private static byte[] StreamToByteArray(Stream stream)
-        {
-            if (stream is MemoryStream memoryStream)
-            {
-                return memoryStream.ToArray();
-            }
-            using var ms = new MemoryStream();
-            stream.CopyTo(ms);
-            return ms.ToArray();
-        }
-
-        
     }
 }
